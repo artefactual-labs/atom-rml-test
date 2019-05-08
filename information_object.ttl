@@ -11,23 +11,30 @@
 <TriplesMap1>
   a rr:TriplesMap;
 
-  rml:logicalSource [
-    rml:source <#DB_source>;
+   rml:logicalSource [
+    rml:source <#DB_source> ;
     rr:sqlVersion rr:SQL2008;
-    rr:tableName "information_object_i18n";
+    rml:query """
+      SELECT slug, title, culture
+        FROM information_object io
+        JOIN slug ON io.id = slug.id
+        JOIN information_object_i18n i18n ON io.id = i18n.id
+        WHERE title IS NOT NULL;
+      """ ;
+    rml:referenceFormulation ql:CSV
   ];
 
   rr:subjectMap [
-    rr:template "http://example.com/{title}"
+    rr:template "http://example.com/{slug}"
   ];
 
   rr:predicateObjectMap [
     rr:predicate dc:title ;
     rr:objectMap [
-      rml:reference "title"
+      rr:template "{title}@{culture}";
+      rr:termType rr:Literal;
     ]
   ].
-
 
 <#DB_source> a d2rq:Database;
   d2rq:jdbcDSN "jdbc:mysql://localhost:3306/atom"; # the "jbdc:mysql:// part is ignored
