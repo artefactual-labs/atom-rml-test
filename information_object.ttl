@@ -19,7 +19,7 @@
         FROM information_object io
         JOIN slug ON io.id = slug.id
         JOIN information_object_i18n i18n ON io.id = i18n.id
-        WHERE title IS NOT NULL;
+        WHERE title IS NOT NULL AND culture='en';
       """ ;
     rml:referenceFormulation ql:CSV
   ];
@@ -31,8 +31,8 @@
   rr:predicateObjectMap [
     rr:predicate dc:title ;
     rr:objectMap [
-      rr:template "{title}@{culture}";
-      rr:termType rr:Literal;
+      rml:reference "title";
+      rr:language "en";
     ]
   ].
 
