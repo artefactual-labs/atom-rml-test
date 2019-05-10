@@ -17,7 +17,7 @@
     rml:query """
       SELECT slug, title, culture
         FROM information_object io
-        JOIN slug ON io.id = slug.id
+        JOIN slug ON io.id = slug.object_id
         JOIN information_object_i18n i18n ON io.id = i18n.id
         WHERE title IS NOT NULL AND culture='en';
       """ ;
